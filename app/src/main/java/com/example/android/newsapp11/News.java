@@ -8,12 +8,12 @@ public class News {
 
     private String mWebPublicationDate;
 
-    private String mUrl; //url of an article
+    private String mWebUrl; //weburl of an article
 
-    public News(String webTitle, String sectionName, String webPublicationDate, String url) {
+    public News(String webTitle, String sectionName, String webPublicationDate, String webUrl) {
         mWebTitle = webTitle;
         mSectionName = sectionName;
-        mUrl = url;
+        mWebUrl = webUrl;
         mWebPublicationDate = webPublicationDate;
     }
 
@@ -29,8 +29,8 @@ public class News {
         return mWebPublicationDate;
     }
 
-    public String getUrl() {
-        return mUrl;
+    public String getWebUrl() {
+        return mWebUrl;
     }
 }
 

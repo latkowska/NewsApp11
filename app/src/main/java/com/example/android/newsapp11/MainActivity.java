@@ -5,11 +5,16 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,7 +30,8 @@ public class MainActivity extends AppCompatActivity
     public static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String GUARDIAN_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=%27news%27%20&api-key=3d76447a-d28b-455c-a85f-4d68075a785c";
+            "https://content.guardianapis.com/search?q=query&api-key=3d76447a-d28b-455c-a85f-4d68075a785c";
+
 
     private static final int NEWS_LOADER_ID = 1;
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("NEWS_APP", "This is uri source link " + GUARDIAN_REQUEST_URL);
 
         ListView newsListView = (ListView) findViewById(R.id.exact_list);
 
@@ -54,13 +62,15 @@ public class MainActivity extends AppCompatActivity
 
                 News currentNews = mAdapter.getItem(position);
 
-                Uri newsUri = Uri.parse(currentNews.getUrl());
+                Uri newsUri = Uri.parse(currentNews.getWebUrl());
 
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
 
                 startActivity(websiteIntent);
-            }
+
+                }
         });
+
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -91,8 +101,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("orderby", orderBy);
+
         // Create a new loader for the given URL
-        return new NewsLoader(this, GUARDIAN_REQUEST_URL);
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -118,6 +141,25 @@ public class MainActivity extends AppCompatActivity
     public void onLoaderReset(Loader<List<News>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
+    }
+
+    @Override
+    // This method initialize the contents of the Activity's options menu.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the Options Menu we specified in XML
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

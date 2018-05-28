@@ -9,11 +9,11 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     private static final String LOG_TAG = NewsLoader.class.getName();
 
-    private String mUrl;
+    private String mWebUrl;
 
-    public NewsLoader(Context context, String url) {
+    public NewsLoader(Context context, String webUrl) {
         super(context);
-        mUrl = url;
+        mWebUrl = webUrl;
     }
 
     @Override
@@ -26,12 +26,12 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
      */
     @Override
     public List<News> loadInBackground() {
-        if (mUrl == null) {
+        if (mWebUrl == null) {
             return null;
         }
 
         // Perform the network request, parse the response, and extract a list of earthquakes.
-        List<News> news = QueryUtils.fetchNewsData(mUrl);
+        List<News> news = QueryUtils.fetchNewsData(mWebUrl);
         return news;
     }
 }
