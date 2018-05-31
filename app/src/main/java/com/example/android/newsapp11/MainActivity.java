@@ -19,19 +19,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderCallbacks<List<News>> {
+        implements LoaderCallbacks<List<News>>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search?q=query&api-key=3d76447a-d28b-455c-a85f-4d68075a785c";
-
 
     private static final int NEWS_LOADER_ID = 1;
 
@@ -56,7 +57,15 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsListView.setAdapter(mAdapter);
 
+        //DODANO 29.05 POCARLOSIE
+        // Obtain a reference to the SharedPreferences file for this app
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // And register to be notified of preference changes
+        // So we know when the user has adjusted the query settings
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 
                 startActivity(websiteIntent);
 
-                }
+            }
         });
 
 
@@ -99,6 +108,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    //DODANO PO CARLOSIE
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        //TU USUNIETO  if (key.equals(getString(R.string.settings_min_magnitude_key)) ||
+        if (key.equals(getString(R.string.settings_order_by_key))) {
+            // Clear the ListView as a new query will be kicked off
+            mAdapter.clear();
+
+            // Hide the empty state text view as the loading indicator will be displayed
+            mEmptyStateTextView.setVisibility(View.GONE);
+
+            // Show the loading indicator while new data is being fetched
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.VISIBLE);
+
+            // Restart the loader to requery the USGS as the query settings have been updated
+            getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
+
+        }
+    }
+
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
 
@@ -116,6 +147,12 @@ public class MainActivity extends AppCompatActivity
 
         // Create a new loader for the given URL
         return new NewsLoader(this, uriBuilder.toString());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
     }
 
     @Override
@@ -137,10 +174,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
+
     }
 
     @Override
