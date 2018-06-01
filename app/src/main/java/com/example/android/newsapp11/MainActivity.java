@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     //DODANO PO CARLOSIE
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        //TU USUNIETO  if (key.equals(getString(R.string.settings_min_magnitude_key)) ||
+
         if (key.equals(getString(R.string.settings_order_by_key))) {
             // Clear the ListView as a new query will be kicked off
             mAdapter.clear();
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("orderBy", orderBy);
 
         // Create a new loader for the given URL
         return new NewsLoader(this, uriBuilder.toString());
@@ -152,7 +152,37 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is a network connection, fetch data
+        if (networkInfo != null && networkInfo.isConnected()) {
+
+            getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+
+            // Get a reference to the LoaderManager, in order to interact with loaders.
+            //LoaderManager loaderManager = getLoaderManager();
+
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // because this activity implements the LoaderCallbacks interface).
+            //loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+        } else {
+            // Otherwise, display error
+            // First, hide loading indicator so error message will be visible
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+
+            // Update empty state with no connection error message
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+
+
+        }
     }
 
     @Override

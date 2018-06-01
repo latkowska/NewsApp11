@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -120,6 +121,10 @@ public final class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
 
             JSONObject firstObject = baseJsonResponse.getJSONObject("response");
+
+            //What to do with orderBy variable?
+
+            String orderBy = firstObject.getString("orderBy");
 
             JSONArray newsArray = firstObject.getJSONArray("results");
 

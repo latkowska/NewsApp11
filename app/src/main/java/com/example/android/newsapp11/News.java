@@ -10,6 +10,7 @@ public class News {
 
     private String mWebUrl; //weburl of an article
 
+
     public News(String webTitle, String sectionName, String webPublicationDate, String webUrl) {
         mWebTitle = webTitle;
         mSectionName = sectionName;
@@ -32,6 +33,8 @@ public class News {
     public String getWebUrl() {
         return mWebUrl;
     }
+
+
 }
 
 
