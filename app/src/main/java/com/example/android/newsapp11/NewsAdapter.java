@@ -23,7 +23,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
                     R.layout.list_item, parent, false);
         }
 
-        // Get the position of the object located at list
         News currentNews = getItem(position);
 
         TextView webTitleTextView = (TextView) listItemView.findViewById(R.id.article_title);

@@ -6,7 +6,6 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +29,6 @@ public final class QueryUtils {
 
         URL url = createUrl(requestUrl);
 
-        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -43,9 +41,6 @@ public final class QueryUtils {
         return news;
     }
 
-    /**
-     * Returns new URL object from the given string URL.
-     */
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
@@ -56,9 +51,6 @@ public final class QueryUtils {
         return url;
     }
 
-    /**
-     * Make an HTTP request to the given URL and return a String as the response.
-     */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -121,8 +113,6 @@ public final class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
 
             JSONObject firstObject = baseJsonResponse.getJSONObject("response");
-
-            //What to do with orderBy variable?
 
             String orderBy = firstObject.getString("orderBy");
 

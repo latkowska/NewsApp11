@@ -8,7 +8,7 @@ public class News {
 
     private String mWebPublicationDate;
 
-    private String mWebUrl; //weburl of an article
+    private String mWebUrl;
 
 
     public News(String webTitle, String sectionName, String webPublicationDate, String webUrl) {

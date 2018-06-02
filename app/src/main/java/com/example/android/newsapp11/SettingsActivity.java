@@ -2,13 +2,11 @@ package com.example.android.newsapp11;
 
 import android.content.SharedPreferences;
 import android.preference.Preference;
-import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.ListPreference;
-import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
