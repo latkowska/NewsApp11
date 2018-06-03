@@ -25,14 +25,25 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         News currentNews = getItem(position);
 
-        TextView webTitleTextView = (TextView) listItemView.findViewById(R.id.article_title);
-        webTitleTextView.setText(currentNews.getWebTitle());
+        TextView headlineTextView = (TextView) listItemView.findViewById(R.id.article_title);
+        headlineTextView.setText(currentNews.getHeadline());
 
         TextView sectionTextView = (TextView) listItemView.findViewById(R.id.section_name);
         sectionTextView.setText(currentNews.getSectionName());
 
-        TextView webPublicationDateTextView = (TextView) listItemView.findViewById(R.id.date_of_publishing);
-        webPublicationDateTextView.setText(currentNews.getWebPublicationDate());
+        if(currentNews.getWebPublicationDate() != null) {
+            TextView webPublicationDateTextView = (TextView) listItemView.findViewById(R.id.date_of_publishing);
+            webPublicationDateTextView.setText(currentNews.getWebPublicationDate());
+        } else {
+            System.out.println("Publication date unknown.");
+        }
+
+        if(currentNews.getByline() != null) {
+            TextView authorTextView = (TextView) listItemView.findViewById(R.id.author);
+            authorTextView.setText(currentNews.getByline());
+        } else {
+            System.out.println("Authors name unknown.");
+        }
 
         return listItemView;
     }

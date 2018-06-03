@@ -2,39 +2,36 @@ package com.example.android.newsapp11;
 
 public class News {
 
-    private String mWebTitle;
-
+    private String mHeadline;
     private String mSectionName;
-
     private String mWebPublicationDate;
-
     private String mWebUrl;
+    private String mByline; //author's name
 
 
-    public News(String webTitle, String sectionName, String webPublicationDate, String webUrl) {
-        mWebTitle = webTitle;
+    public News(String headline, String sectionName, String webPublicationDate, String webUrl, String byline) {
+        mHeadline = headline;
         mSectionName = sectionName;
         mWebUrl = webUrl;
         mWebPublicationDate = webPublicationDate;
+        mByline = byline;
     }
 
-    public String getWebTitle() {
-        return mWebTitle;
+    public String getHeadline() {
+        return mHeadline;
     }
-
     public String getSectionName() {
         return mSectionName;
     }
-
     public String getWebPublicationDate() {
         return mWebPublicationDate;
     }
-
     public String getWebUrl() {
         return mWebUrl;
     }
-
-
+    public String getByline() {
+        return mByline;
+    }
 }
 
 

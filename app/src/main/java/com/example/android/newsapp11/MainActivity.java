@@ -24,13 +24,12 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderCallbacks<List<News>>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        implements LoaderCallbacks<List<News>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?order-by=newest&section=news&q=query&api-key=3d76447a-d28b-455c-a85f-4d68075a785c";
+            "https://content.guardianapis.com/search?show-fields=headline%2Cbyline&show-tags=type&api-key=test";
 
     private static final int NEWS_LOADER_ID = 1;
 
@@ -62,9 +61,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                News currentNews = mAdapter.getItem(position);
+                News news = mAdapter.getItem(position);
 
-                Uri newsUri = Uri.parse(currentNews.getWebUrl());
+                Uri newsUri = Uri.parse(news.getWebUrl());
 
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
 
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String orderBy = sharedPrefs.getString(
+        String tag = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
@@ -101,7 +100,12 @@ public class MainActivity extends AppCompatActivity
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("orderBy", orderBy);
+
+
+        uriBuilder.appendQueryParameter("format", "json");
+        uriBuilder.appendQueryParameter("pageSize", "10");
+        uriBuilder.appendQueryParameter("order-by", "newest");
+        uriBuilder.appendQueryParameter("tags", tag);
 
         return new NewsLoader(this, uriBuilder.toString());
     }
