@@ -4,6 +4,8 @@ public class News {
 
     private String mWebTitle;
 
+    private String mAuthor;
+
     private String mSectionName;
 
     private String mWebPublicationDate;
@@ -11,8 +13,9 @@ public class News {
     private String mWebUrl;
 
 
-    public News(String webTitle, String sectionName, String webPublicationDate, String webUrl) {
+    public News(String webTitle, String author, String sectionName, String webPublicationDate, String webUrl) {
         mWebTitle = webTitle;
+        mAuthor = author;
         mSectionName = sectionName;
         mWebUrl = webUrl;
         mWebPublicationDate = webPublicationDate;
@@ -20,6 +23,10 @@ public class News {
 
     public String getWebTitle() {
         return mWebTitle;
+    }
+
+    public String getAuthor() {
+        return mAuthor;
     }
 
     public String getSectionName() {

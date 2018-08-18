@@ -114,14 +114,13 @@ public final class QueryUtils {
 
             JSONObject firstObject = baseJsonResponse.getJSONObject("response");
 
-            String orderBy = firstObject.getString("orderBy");
-
             JSONArray newsArray = firstObject.getJSONArray("results");
 
             for (int i = 0; i < newsArray.length(); i++) {
 
                 JSONObject currentNews = newsArray.getJSONObject(i);
-                //tu bylo z properties
+
+                String author = null;
 
                 String webTitle = currentNews.getString("webTitle");
 
@@ -131,7 +130,7 @@ public final class QueryUtils {
 
                 String webUrl = currentNews.getString("webUrl");
 
-                news.add(new News(webTitle, sectionName, webPublicationDate, webUrl));
+                news.add(new News(webTitle, author, sectionName, webPublicationDate, webUrl));
             }
 
         } catch (JSONException e) {
