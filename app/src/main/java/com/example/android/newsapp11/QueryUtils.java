@@ -1,5 +1,6 @@
 package com.example.android.newsapp11;
 
+import android.net.ParseException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,8 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public final class QueryUtils {
 
@@ -25,7 +29,7 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    public static List<News> fetchNewsData(String requestUrl) {
+    public static List<News> fetchNewsData(String requestUrl) throws java.text.ParseException {
 
         URL url = createUrl(requestUrl);
 
@@ -100,7 +104,7 @@ public final class QueryUtils {
         return output.toString();
     }
 
-    private static List<News> extractFeatureFromJson(String newsJSON) {
+    private static List<News> extractFeatureFromJson(String newsJSON) throws java.text.ParseException {
 
         if (TextUtils.isEmpty(newsJSON)) {
             return null;
@@ -120,13 +124,17 @@ public final class QueryUtils {
 
                 JSONObject currentNews = newsArray.getJSONObject(i);
 
-                String author = null;
+                String author = "";
+
+
 
                 String webTitle = currentNews.getString("webTitle");
 
                 String sectionName = currentNews.getString("sectionName");
 
                 String webPublicationDate = currentNews.getString("webPublicationDate");
+
+                webPublicationDate = dateFormat(webPublicationDate);
 
                 String webUrl = currentNews.getString("webUrl");
 
@@ -137,6 +145,20 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
         return news;
+    }
+
+    private static String dateFormat(String webPublicationDate) throws java.text.ParseException {
+        String jsonDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatDate = new SimpleDateFormat(jsonDateFormat, Locale.GERMANY);
+        try {
+            Date parsedJsonDate = jsonFormatDate.parse(webPublicationDate);
+            String finalDateFormat = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatis = new SimpleDateFormat(finalDateFormat, Locale.GERMANY);
+            return finalDateFormatis.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date", e);
+            return "";
+        }
     }
 }
 

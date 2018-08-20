@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("order-by", "oldest");
+        uriBuilder.appendQueryParameter("order-by", "newest");
         uriBuilder.appendQueryParameter("api-key", "3d76447a-d28b-455c-a85f-4d68075a785c");
 
         return new NewsLoader(this, uriBuilder.toString());

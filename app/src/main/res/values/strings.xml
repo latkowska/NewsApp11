@@ -16,15 +16,18 @@
     <!-- Strings For Order-By Preference -->
     <string name="settings_order_by_lable">Order by...</string>
     <string name="settings_order_by_key" translatable="false">order-by</string>
-    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_section_name_value</string>
+    <string name="settings_order_by_default" translatable="false">webPublicationDate</string>
 
     <!-- Label for order-by section name option  -->
     <string name="settings_order_by_section_name_label">Section Name</string>
     <string name="settings_order_by_section_name_value" translatable="false">sectionName</string>
 
-    <!-- Label for order-by most recent option [CHAR LIMIT=20] -->
+    <!-- Label for order-by most recent option-->
     <string name="settings_order_by_most_recent_label">Most Recent</string>
     <string name="settings_order_by_most_recent_value" translatable="false">webPublicationDate</string>
+
+    <!--API key-->
+    <string name="API_guardian_key">3d76447a-d28b-455c-a85f-4d68075a785c</string>
 
 </resources>
 
