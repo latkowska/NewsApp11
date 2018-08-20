@@ -37,14 +37,20 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         News currentNews = getItem(position);
 
+<<<<<<< HEAD
         viewHolder.webTitleTextView.setText(currentNews.getWebTitle());
         viewHolder.authorTextView.setText(currentNews.getAuthor());
         viewHolder.sectionNameTextView.setText(currentNews.getSectionName());
         viewHolder.webPublicationDateTextView.setText(currentNews.getWebPublicationDate());
+=======
+        TextView headlineTextView = (TextView) listItemView.findViewById(R.id.article_title);
+        headlineTextView.setText(currentNews.getHeadline());
+>>>>>>> 01dcbca55b69d79263d72cba52dbd1e53d613188
 
         return convertView;
     }
 
+<<<<<<< HEAD
     class ViewHolder {
         private TextView webTitleTextView;
         private TextView authorTextView;
@@ -56,6 +62,20 @@ public class NewsAdapter extends ArrayAdapter<News> {
             this.authorTextView = (TextView) view.findViewById(R.id.article_author);
             this.sectionNameTextView = (TextView) view.findViewById(R.id.section_name);
             this.webPublicationDateTextView = (TextView) view.findViewById(R.id.date_of_publishing);
+=======
+        if(currentNews.getWebPublicationDate() != null) {
+            TextView webPublicationDateTextView = (TextView) listItemView.findViewById(R.id.date_of_publishing);
+            webPublicationDateTextView.setText(currentNews.getWebPublicationDate());
+        } else {
+            System.out.println("Publication date unknown.");
+        }
+
+        if(currentNews.getByline() != null) {
+            TextView authorTextView = (TextView) listItemView.findViewById(R.id.author);
+            authorTextView.setText(currentNews.getByline());
+        } else {
+            System.out.println("Authors name unknown.");
+>>>>>>> 01dcbca55b69d79263d72cba52dbd1e53d613188
         }
 
     }

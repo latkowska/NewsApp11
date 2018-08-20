@@ -78,7 +78,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -115,9 +115,12 @@ public final class QueryUtils {
         try {
 
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
+            JSONObject response = baseJsonResponse.getJSONObject("response");
+            JSONArray results = response.getJSONArray("results");
 
-            JSONObject firstObject = baseJsonResponse.getJSONObject("response");
+            for (int i = 0; i < results.length(); i++) {
 
+<<<<<<< HEAD
             JSONArray newsArray = firstObject.getJSONArray("results");
 
             for (int i = 0; i < newsArray.length(); i++) {
@@ -139,6 +142,18 @@ public final class QueryUtils {
                 String webUrl = currentNews.getString("webUrl");
 
                 news.add(new News(webTitle, author, sectionName, webPublicationDate, webUrl));
+=======
+                JSONObject resultsContent = results.getJSONObject(i);
+                String sectionName = resultsContent.getString("sectionName");
+                String webPublicationDate = resultsContent.getString("webPublicationDate");
+                String webUrl = resultsContent.getString("webUrl");
+
+                JSONObject fieldsContent = resultsContent.getJSONObject("fields");
+                String headline = fieldsContent.getString("headline");
+                String byline = fieldsContent.getString("byline");
+
+                news.add(new News(headline, sectionName, webPublicationDate, webUrl, byline));
+>>>>>>> 01dcbca55b69d79263d72cba52dbd1e53d613188
             }
 
         } catch (JSONException e) {
