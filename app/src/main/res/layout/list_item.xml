@@ -17,13 +17,8 @@
         tools:text="Pneumonia is spreading all over Europe." />
 
     <TextView
-<<<<<<< HEAD
         android:id="@+id/article_author"
         style="@style/Section"
-=======
-        android:id="@+id/author"
-        style="@style/Author"
->>>>>>> 01dcbca55b69d79263d72cba52dbd1e53d613188
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
