@@ -9,4 +9,11 @@
         android:key="@string/settings_order_by_key"
         android:title="@string/settings_order_by_lable" />
 
+    <EditTextPreference
+        android:defaultValue="@string/settings_sectionName_default"
+        android:inputType="text"
+        android:key="@string/settings_sectionName_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_sectionName_label" />
+
 </PreferenceScreen>

@@ -13,9 +13,14 @@
     <!-- Settings Activity Title -->
     <string name="settings_title">News App Settings</string>
 
+    <!-- Strings For Section Name Preference -->
+    <string name="settings_sectionName_label">Section Name</string>
+    <string name="settings_sectionName_key" translatable="false">sectionName</string>
+    <string name="settings_sectionName_default" translatable="false">Society</string>
+
     <!-- Strings For Order-By Preference -->
     <string name="settings_order_by_lable">Order by...</string>
-    <string name="settings_order_by_key" translatable="false">order-by</string>
+    <string name="settings_order_by_key" translatable="false">orderBy</string>
     <string name="settings_order_by_default" translatable="false">webPublicationDate</string>
 
     <!-- Label for order-by most recent option-->
