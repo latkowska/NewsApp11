@@ -93,8 +93,7 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String orderBy = sharedPrefs.getString(
-                getString(R.string.settings_order_by_key),
+        sharedPrefs.getString(getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
 
